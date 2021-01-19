@@ -29,4 +29,10 @@ defmodule GuessingGameTest do
       IO.write GuessingGame.guess(0, 10)
     end) == "Hmm... maybe you're thinking of 5?\nI knew I could guess your number!"
   end
+
+  test "GuessingGame should notice player when they type invalid command" do
+    assert capture_io("INVALID COMMAND\nyes", fn ->
+      IO.write GuessingGame.guess(0, 10)
+    end) =~ ~s{Type "bigger", "smaller", or "yes"}
+  end
 end
