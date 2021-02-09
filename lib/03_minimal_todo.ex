@@ -1,14 +1,43 @@
-# TODO: Continue since 29.00 at https://alchemist.camp/episodes/minimal-todo-2
-
 defmodule MinimalTodo do
   def start do
-    load_csv()
-    # (read todos, add todos, delete todos, load file, save files)
+    input =
+      IO.gets("Would you like to create a new .csv? (y/n)\n")
+      |> String.trim()
+
+    if input == "y" do
+      create_initial_todo() |> get_command()
+    else
+      load_csv()
+    end
+  end
+
+  def create_header(headers) do
+    case IO.gets("Add field: ") |> String.trim() do
+      "" -> headers
+      header -> create_header([header | headers])
+    end
+  end
+
+  def create_headers() do
+    IO.puts("""
+    What data should each todo have?
+    Enter filed names one by one and an empty line when you're done.
+    """)
+
+    create_header([])
+  end
+
+  def create_initial_todo() do
+    titles = create_headers()
+    name = get_item_name(%{})
+    fields = Enum.map(titles, &field_from_user(&1))
+    IO.puts(~s(New todo "#{name}" added.))
+    %{name => Enum.into(fields, %{})}
   end
 
   def get_command(data) do
     prompt = """
-    Type the first letter of the command you want to run\n
+    Type the first letter of the command you want to run
     R)ead Todos    A)dd a Todo    D)elete a Todo    L)oad a .csv    S)ave a .csv
     """
 
