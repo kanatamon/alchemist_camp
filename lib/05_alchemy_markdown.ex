@@ -20,6 +20,8 @@ defmodule AlchemyMarkdown do
   end
 
   def hrs(text) do
+    # * - mean 0 or more
+    #   eg. \s*, mean zero or more spaces
     Regex.replace(~r{(^|\r\n|\r|\n)([-*])(\s*\2\s*)+\2}, text, "\\1<hr />")
   end
 end
