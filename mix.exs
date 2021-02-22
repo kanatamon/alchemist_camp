@@ -6,6 +6,7 @@ defmodule AlchemistCamp.MixProject do
       app: :alchemist_camp,
       version: "0.1.0",
       elixir: "~> 1.11",
+      escript: [main_module: WordCount.CLI],
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
